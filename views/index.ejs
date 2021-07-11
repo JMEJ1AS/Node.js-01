@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+	<head>
+		
+		<title>Consultar BD AJAX</title>
+		
+		<meta charset="utf-8">
+		
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+        <link rel="stylesheet" href="resources/bootswatch/minty/bootstrap.min.css">
+        
+        <link rel="stylesheet" href="resources/font-awesome/css/font-awesome.css">
+		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		
+        <script src='/socket.io/socket.io.js'></script>
+
+    </head>
+	
+	<body>
+
+		<div class="navbar navbar-expand-lg navbar-dark bg-primary">
+  
+            <a class="navbar-brand" href="#"><i class="icon-gear"></i> Support PARQUEMET</a>
+                
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+      
+                <span class="navbar-toggler-icon"></span>
+                
+            </button>
+  
+            <div class="collapse navbar-collapse" id="navbarColor01">
+      
+              <ul class="navbar-nav mr-auto">
+        
+                    <li class="nav-item active">
+                  
+                      <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                  
+                  </li>
+  
+                  <li class="nav-item">
+              
+                      <a class="nav-link" href="#">Req. asignados</a>
+                  
+                  </li>
+                  
+                  <li class="nav-item">
+      
+                      <a class="nav-link" href="#">Atendidos</a>
+        
+                    </li>
+        
+      
+                  <li class="nav-item dropdown">
+          
+                      <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Gestión</a>
+          
+                      <div class="dropdown-menu">
+          
+                          <a class="dropdown-item" href="#">Action</a>
+          
+                          <a class="dropdown-item" href="#">Another action</a>
+          
+                          <a class="dropdown-item" href="#">Something else here</a>
+          
+                          <div class="dropdown-divider"></div>
+          
+                          <a class="dropdown-item" href="#">Separated link</a>
+          
+                      </div>
+        
+                    </li>
+      
+              </ul>
+
+              <div class="inline my-2 my-lg-0">
+
+                <% if(login) { %>
+
+                    <div class="breadcrumb-item active">
+                
+                        <a class="breadcrumb-item active"></a><%= name %></a>
+
+                        <a class="breadcrumb-item active" href="logout"><i class='icon-power-off'></i></a>
+
+                    </div>
+                    
+                
+                <% } %>
+
+              </div>
+    
+            </div>
+  
+        </div>
+		
+        <div class="container">	
+
+            <p>&nbsp;</p>
+
+            <p>&nbsp;</p>
+
+            <ol class="breadcrumb">
+    
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+    
+                <li class="breadcrumb-item active">Library</li>
+
+            </ol>
+
+            <body>
+                
+                
+                <h1 id="socketio"> not connected </h1>
+                
+                <!--<div id="display"></div>-->
+
+                <div class="row" id="display"></div>
+                
+                <script>
+                var socket = io();
+                socket.on('connect', function() {
+                    document.getElementById("socketio").innerHTML = "socket connected";
+                });
+
+                //setInterval(()=>{
+                
+                socket.on('showrows', function(rows) {
+                    
+                    var html='';
+                    
+                    for (var i=0; i<rows.length; i++) {
+                    
+                    //html += rows[i].fromaddr + ' ' + rows[i].asunto + ' ' + rows[i].fecha + '<br>';
+
+                    html += '<div class="col-lg-4">' + 
+
+                                '<div class="card bg-light mb-3">' +
+                        
+                                    '<div class="card-header">' +
+
+                                        '<button type="button" class="btn btn-'+rows[i].etiqueta+' btn-lg">' +
+
+                                            '<h2>' + rows[i].iniciales + '</h2>' +
+
+                                        '</button>' +
+
+                                    '</div>' +
+
+                                    '<div class="card-body">' +
+                            
+                                        '<h4 class="card-title">' + rows[i].destinatario + '</h4>' +
+                                
+                                        '<p class="card-text">' + rows[i].asunto + '</p>' +
+                                
+                                    '</div>' + 
+
+                                '</div>' +
+
+                            '</div>';
+                                    
+                    }  
+                    
+                    document.getElementById("display").innerHTML = html;
+                    
+                    //console.log(rows);
+                
+                });
+
+                //}, 3000)
+
+                </script>
+            
+            </body>
+            
+            <footer id="footer"></footer>
+
+            <script src="resources/js/jquery.min.js"></script>
+		       
+            <script src="resources/js/bootstrap.bundle.min.js"></script>
+        
+            <script src="resources/js/custom.js"></script>
+        
+        </div>
+	
+	</body>
+
+</html>
